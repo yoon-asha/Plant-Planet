@@ -19,9 +19,9 @@ app.get('/', (req, res) => {
 });
 
 /* 
-POST https://localhost:4000/signin,
-GET https://localhost:4000/signout,
-POST https://localhost:4000/signup
+POST http://localhost:4000/signin,
+GET http://localhost:4000/signout,
+POST http://localhost:4000/signup
 */
 app.use('/', usersRouter);
 
