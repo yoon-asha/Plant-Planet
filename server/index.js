@@ -1,7 +1,18 @@
 const express = require('express');
+const cors = require('cors');
 const usersRouter = require('./router/users');
 
 const app = express();
+
+// CORS 설정
+// GET, POST, OPTIONS 허용
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    credentials: true,
+  })
+);
 
 app.get('/', (req, res) => {
   res.send('hello node');
