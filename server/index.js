@@ -14,6 +14,7 @@ app.use(
   })
 );
 
+// Test
 app.get('/', (req, res) => {
   res.send('hello node');
 });
@@ -25,4 +26,5 @@ POST http://localhost:4000/signup
 */
 app.use('/', usersRouter);
 
+// 4000 Port Check
 app.listen(4000, () => console.log('4000번 포트에서 대기중'));
