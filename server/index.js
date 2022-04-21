@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const userRouter = require('./router/user');
 const likeRouter = require('./router/like');
+const postRouter = require('./router/post');
 
 const app = express();
 
@@ -24,6 +25,7 @@ POST http://localhost:4000/signup
 */
 app.use('/', userRouter);
 app.use('/', likeRouter);
+app.use('/', postRouter);
 
 // Connect mongodb
 mongoose
