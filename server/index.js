@@ -1,6 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const usersRouter = require('./router/users');
+const mongoose = require('mongoose');
+const userRouter = require('./router/user');
+const likeRouter = require('./router/like');
+const postRouter = require('./router/post');
 
 const app = express();
 
@@ -14,17 +18,23 @@ app.use(
   })
 );
 
-// Test
-app.get('/', (req, res) => {
-  res.send('hello node');
-});
-
 /* 
 POST http://localhost:4000/signin,
 GET http://localhost:4000/signout,
 POST http://localhost:4000/signup
 */
-app.use('/', usersRouter);
+app.use('/', userRouter);
+app.use('/', likeRouter);
+app.use('/', postRouter);
+
+// Connect mongodb
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    // useUnifiedTopology: true,
+  })
+  .then(() => console.log('Successfully connected to mongodb'))
+  .catch((e) => console.error(e));
 
 // 4000 Port Check
 app.listen(4000, () => console.log('4000번 포트에서 대기중'));

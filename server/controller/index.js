@@ -1,3 +1,5 @@
 module.exports = {
-  usersController: require('./users'),
+  userController: require('./user'),
+  likeController: require('./like'),
+  postController: require('./post'),
 };
