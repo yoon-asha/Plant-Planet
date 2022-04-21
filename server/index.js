@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const userRouter = require('./router/user');
+const likeRouter = require('./router/like');
 
 const app = express();
 
@@ -22,6 +23,7 @@ GET http://localhost:4000/signout,
 POST http://localhost:4000/signup
 */
 app.use('/', userRouter);
+app.use('/', likeRouter);
 
 // Connect mongodb
 mongoose
