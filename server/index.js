@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const usersRouter = require('./router/users');
+const userRouter = require('./router/user');
 
 const app = express();
 
@@ -16,17 +16,12 @@ app.use(
   })
 );
 
-// Test
-app.get('/', (req, res) => {
-  res.send('hello node');
-});
-
 /* 
 POST http://localhost:4000/signin,
 GET http://localhost:4000/signout,
 POST http://localhost:4000/signup
 */
-app.use('/', usersRouter);
+app.use('/', userRouter);
 
 // Connect mongodb
 mongoose
