@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const userRouter = require('./router/user');
+const likeRouter = require('./router/like');
+const postRouter = require('./router/post');
 
 
 const app = express();
@@ -25,7 +27,9 @@ GET http://localhost:4000/signout,
 POST http://localhost:4000/signup
 */
 app.use('/', userRouter);
-console.log(process.env.MONGODB_URI)
+app.use('/', likeRouter);
+app.use('/', postRouter);
+
 // Connect mongodb
 mongoose
   .connect(process.env.MONGODB_URI, {
