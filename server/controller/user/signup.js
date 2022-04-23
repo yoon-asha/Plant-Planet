@@ -1,39 +1,61 @@
+const express = require('express');
+const Web3 = require('web3');
+const { default: mongoose } = require('mongoose');
 const { User } = require('../../models');
 
 // signup
 module.exports = {
-  post: (req, res) => {
-    // signup 경우
-    // req.body(address, name, desc)가 전달
-    // monogoDB에 userSchema에 address 존재 여부를 확인 - findOne?
-    // 있으면
-    // response로 이미 회원가입된 사람이다 message 보내기, 상태코드 조금다를걸로 결정하기
-    // 없으면
-    // userSchema에 넣을 값들 정하기 -
-    // const user = new userSchema({
-    //   id: 2,
+  post: async (req, res) => {
+
+    // const user = new User({
+    //   id: 10,
+    //   email: '1234@gmail.com',
+    //   pw: '1234',
     //   address: '0x123456789',
-    //   name: 'kyeom',
-    //   desc: 'kyeom desc',
+    //   name: 'test',
+    //   desc: 'test desc',
     // });
-    // id는 비교후 +1 증가 시키기
-    // DB에 저장하기 - save?
-    // response 보내기 회원가입 완료했습니다, 상태코드는 200
 
-    const user = new User({
-      id: 2,
-      address: '0x123456789',
-      name: 'kyeom',
-      desc: 'kyeom desc',
-    });
+    // user.save().then(() => console.log('Saved successfully'));
 
-    user.save().then(() => console.log('Saved successfully'));
-
-    if (false) {
-      return res.status(400).json({ message: 'not authorized' });
+    const { email, pw, name, desc } = req.body;
+    // console.log(email);
+    if (!email || !pw || !name || !desc) {
+      return res.status(422).json({ message: '회원정보를 모두 입력해주세요.' });
     } else {
-      return res.status(200).json({ message: 'signup ok' });
-      // return res.status(200).json({ message: 'ok' });
+      const userEmail = await User.findOne({ email: email });     // 이메일이 DB에 존재하는지 검증
+      const userName = await User.findOne({ name: name });    // 유저의 닉네임 중복 여부 검증
+      // console.log(user);
+      if (userEmail) {  // 만약 이메일이 DB에 존재한다면 -> 중복 에러처리
+        return res.status(409).json({ message: '사용중인 이메일이 있습니다.' });
+      } else if (userName) {
+        return res.status(409).json({ message: '사용중인 닉네임이 있습니다.' });
+      } else {    // 모든 조건이 충족되면 지갑을 생성하고, DB에 create.
+
+        // ropsten 연결
+        const web3 = new Web3(
+          new Web3.providers.HttpProvider(
+            'https://ropsten.infura.io/v3/265426e092ef406fa3d0aa62f8a1dca8'
+          )
+        );
+
+        const { address, privateKey } = web3.eth.accounts.create();
+
+        // id 설정 로직
+        const userList = await User.find();
+        let id;
+
+        if (userList.length === 0) {
+          id = 1;
+        } else {
+          id = userList[userList.length - 1].id + 1;
+        }
+        // console.log(userList);
+        // console.log(userList.length);
+
+        const signupUser = await User.create({ id, email, pw, name, desc, address, privateKey });   // 일단 선언은 signupUser로 해둠,,
+        return res.status(200).json({ message: '회원가입이 성공적으로 완료 되었습니다.' });
+      }
     }
   },
 };

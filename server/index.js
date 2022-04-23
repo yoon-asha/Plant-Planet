@@ -17,7 +17,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(express.json());
 /* 
 POST http://localhost:4000/signin,
 GET http://localhost:4000/signout,
