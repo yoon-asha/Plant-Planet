@@ -37,6 +37,9 @@ app.use(
 );
 
 
+app.use(express.json());
+// app.use(express.urlencoded({ extends: true }));
+
 /* 
 POST http://localhost:4000/signin,
 GET http://localhost:4000/signout,
