@@ -1,7 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+
 const mongoose = require('mongoose');
+
 const userRouter = require('./router/user');
 const likeRouter = require('./router/like');
 const postRouter = require('./router/post');
@@ -19,6 +23,18 @@ app.use(
 );
 app.use(express.json())
 app.use(express.urlencoded({ extends: true }))
+app.use(cookieParser());
+app.use(
+  session({
+    key: "signinData",
+    secret: "testSecret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 60 * 60 * 24,
+    },
+  })
+);
 
 
 /* 
@@ -26,9 +42,14 @@ POST http://localhost:4000/signin,
 GET http://localhost:4000/signout,
 POST http://localhost:4000/signup
 */
+
+
+
 app.use('/', userRouter);
 app.use('/', likeRouter);
 app.use('/', postRouter);
+
+
 
 // Connect mongodb
 mongoose
