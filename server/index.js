@@ -10,7 +10,6 @@ const userRouter = require('./router/user');
 const likeRouter = require('./router/like');
 const postRouter = require('./router/post');
 
-
 const app = express();
 // CORS 설정
 // GET, POST, OPTIONS 허용
@@ -21,13 +20,14 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json())
-app.use(express.urlencoded({ extends: true }))
+
+app.use(express.json());
+app.use(express.urlencoded({ extends: true }));
 app.use(cookieParser());
 app.use(
   session({
-    key: "signinData",
-    secret: "testSecret",
+    key: 'signinData',
+    secret: 'testSecret',
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -36,23 +36,15 @@ app.use(
   })
 );
 
-
-app.use(express.json());
-// app.use(express.urlencoded({ extends: true }));
-
 /* 
 POST http://localhost:4000/signin,
 GET http://localhost:4000/signout,
 POST http://localhost:4000/signup
 */
 
-
-
 app.use('/', userRouter);
 app.use('/', likeRouter);
 app.use('/', postRouter);
-
-
 
 // Connect mongodb
 mongoose
