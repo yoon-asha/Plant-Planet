@@ -22,6 +22,8 @@ module.exports = {
 
     const user = new User({
       id: 2,
+      email: "wkdtjdwls@wkdtjdwls.com",
+      pw: "sungjin",
       address: '0x123456789',
       name: 'kyeom',
       desc: 'kyeom desc',
