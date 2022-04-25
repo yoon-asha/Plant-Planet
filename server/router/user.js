@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { userController } = require('../controller');
+const loginRequired = require('../middleware/loginRequired');
 
 // POST /signin
 router.post('/signin', userController.signin.post);
@@ -14,7 +15,11 @@ router.post('/signout', userController.signout.post);
 router.post('/signup', userController.signup.post);
 
 // GET /accessTokenRequest
-router.get('/accessTokenRequest', userController.accessTokenRequest.get);
+router.get(
+  '/accessTokenRequest',
+  loginRequired,
+  userController.accessTokenRequest.get
+);
 
 // GET /refreshTokenRequest
 router.get('/refreshTokenRequest', userController.refreshTokenRequest.get);
