@@ -9,6 +9,7 @@ const postSchema = new mongoose.Schema(
     desc: { type: String },
     address: { type: String, required: true },
     url: { type: String, required: true },
+    count: { type: Number, default: 0 },
   },
   { timestamps: true },
   { collection: 'post-collection' }
