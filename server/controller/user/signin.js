@@ -28,6 +28,7 @@ module.exports = async (req, res) => {
         data: {
           accessToken,
           userInfo: {
+            id: userInfo.id,
             email: userInfo.email,
             name: userInfo.name,
             desc: userInfo.desc,
