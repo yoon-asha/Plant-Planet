@@ -8,4 +8,10 @@ const loginRequired = require('../middleware/loginRequired');
 // POST /post
 router.post('/post', loginRequired, postController.post);
 
+// GET /post
+router.get('/allPost', postController.allPost);
+
+// GET /post
+router.get('/myPost', loginRequired, postController.myPost);
+
 module.exports = router;
