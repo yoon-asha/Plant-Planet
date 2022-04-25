@@ -8,8 +8,8 @@ const userSchema = new mongoose.Schema(
     pw: { type: String, required: true },
     name: { type: String, required: true },
     desc: { type: String },
-    // 니모닉 지갑 관련된 정보들도 추가
     address: { type: String, required: true },
+    privateKey: { type: String, required: true },
     // post_created 시간은 계정 만드는 시간이랑 다름 Check 필요
     // post_created_at: { type: timestamp },
   },
