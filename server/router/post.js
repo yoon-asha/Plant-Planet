@@ -3,7 +3,9 @@ const router = express.Router();
 
 const { postController } = require('../controller');
 
+const loginRequired = require('../middleware/loginRequired');
+
 // POST /post
-router.post('/post', postController.post.post);
+router.post('/post', loginRequired, postController.post);
 
 module.exports = router;
