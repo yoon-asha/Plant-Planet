@@ -12,17 +12,13 @@ module.exports = {
         .status(400)
         .json({ data: null, message: 'invalid access token' });
     } else {
+      // jwt 토큰(access token) 검증
       const token = authorization.split(' ')[1];
       const data = jwt.verify(token, ACCESS_SECRET);
+      const { email, name } = data;
 
-      const { id, email, name } = data;
-      const userInfo = await User.findOne({
-        id,
-        email,
-        name,
-      });
-
-      console.log(userInfo);
+      // DB에서 userInfo 찾기
+      const userInfo = await User.findOne({ email, name });
 
       if (!userInfo) {
         return res
@@ -30,7 +26,14 @@ module.exports = {
           .json({ data: null, message: 'access token has been tempered' });
       } else {
         return res.status(200).json({
-          data: { userInfo: { id, email, name } },
+          data: {
+            userInfo: {
+              email: userInfo.email,
+              name: userInfo.name,
+              desc: userInfo.desc,
+              address: userInfo.address,
+            },
+          },
           message: 'ok',
         });
       }

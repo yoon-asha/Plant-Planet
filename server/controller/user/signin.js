@@ -10,16 +10,15 @@ module.exports = {
   post: async (req, res) => {
     const { email, pw } = req.body;
 
-    const userInfo = await User.findOne({ email, pw }).then((userInfo) => {
+    await User.findOne({ email, pw }).then((userInfo) => {
       if (!userInfo) {
         return res
           .status(400)
           .json({ data: null, message: 'ID 혹은 PW 가 틀렸습니다.' });
       } else {
-        const { id, email, name } = userInfo;
+        const { email, name } = userInfo;
 
-        const payload = { id, email, name };
-        console.log(payload);
+        const payload = { email, name };
 
         const accessToken = jwt.sign(payload, ACCESS_SECRET, {
           expiresIn: '30m',
@@ -28,12 +27,20 @@ module.exports = {
           expiresIn: '1h',
         });
 
-        console.log(refreshToken);
-
         return res
           .cookie('refreshToken', refreshToken)
           .status(200)
-          .json({ data: { accessToken: accessToken }, message: 'OK' });
+          .json({
+            data: {
+              userInfo: {
+                email: userInfo.email,
+                name: userInfo.name,
+                desc: userInfo.desc,
+                address: userInfo.address,
+              },
+            },
+            message: 'OK',
+          });
 
         // req.session.save(() => {
         //   // if (req.seesion.emai
