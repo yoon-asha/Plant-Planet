@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,8 +13,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { observer } from 'mobx-react';
 import Nav from '../components/Nav';
+
+import axios from 'axios';
+import { observer } from 'mobx-react';
 import useExchange from '../hooks/useExchange';
 
 const theme = createTheme();
@@ -24,17 +26,38 @@ const theme = createTheme();
 // observer가 선언된 컴포넌트는 바뀐거에 맞춰서 리렌더링된다
 export default observer(function SignIn() {
   const exchangeStore = useExchange();
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    exchangeStore.setEmail(data.get('email'));
+    const formData = new FormData(event.currentTarget);
+
+    try {
+      const { data } = await axios.post('http://localhost:4000/signin', {
+        email: formData.get('email'),
+        pw: formData.get('password'),
+      });
+
+      if (data.success) {
+        exchangeStore.setAccessToken(data.data.accessToken);
+        exchangeStore.setUserID(data.data.userInfo.id);
+        exchangeStore.setEmail(data.data.userInfo.email);
+        exchangeStore.setDesc(data.data.userInfo.desc);
+        exchangeStore.setAddress(data.data.userInfo.address);
+        // console.log(data.data.userInfo);
+        alert(data.message);
+        navigate('/');
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  console.log(exchangeStore.email);
+  useEffect(() => {
+    if (exchangeStore.accessToken !== '') {
+      navigate('/');
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
