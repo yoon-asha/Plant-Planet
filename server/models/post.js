@@ -4,11 +4,12 @@ const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema(
   {
     id: { type: Number, required: true, unique: true },
-    user_id: { type: String, required: true },
-    address: { type: String, required: true },
+    userID: { type: String, required: true },
     name: { type: String, required: true },
-    url: { type: String, required: true },
     desc: { type: String },
+    address: { type: String, required: true },
+    url: { type: String, required: true },
+    count: { type: Number, default: 0 },
   },
   { timestamps: true },
   { collection: 'post-collection' }

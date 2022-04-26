@@ -1,41 +1,53 @@
+const Web3 = require('web3');
 const { User } = require('../../models');
 
+const INFURA_URL = process.env.INFURA_URL;
+
 // signup
-module.exports = {
-  post: (req, res) => {
-    // signup 경우
-    // req.body(address, name, desc)가 전달
-    // monogoDB에 userSchema에 address 존재 여부를 확인 - findOne?
-    // 있으면
-    // response로 이미 회원가입된 사람이다 message 보내기, 상태코드 조금다를걸로 결정하기
-    // 없으면
-    // userSchema에 넣을 값들 정하기 -
-    // const user = new userSchema({
-    //   id: 2,
-    //   address: '0x123456789',
-    //   name: 'kyeom',
-    //   desc: 'kyeom desc',
-    // });
-    // id는 비교후 +1 증가 시키기
-    // DB에 저장하기 - save?
-    // response 보내기 회원가입 완료했습니다, 상태코드는 200
+module.exports = async (req, res) => {
+  const { email, pw, name, desc } = req.body;
 
-    const user = new User({
-      id: 2,
-      email: "wkdtjdwls@wkdtjdwls.com",
-      pw: "sungjin",
-      address: '0x123456789',
-      name: 'kyeom',
-      desc: 'kyeom desc',
-    });
+  if (!email || !pw || !name || !desc) {
+    return res.status(422).json({ message: '회원정보를 모두 입력해주세요.' });
+  } else {
+    const userEmail = await User.findOne({ email: email }); // 이메일이 DB에 존재하는지 검증
+    const userName = await User.findOne({ name: name }); // 유저의 닉네임 중복 여부 검증
 
-    user.save().then(() => console.log('Saved successfully'));
-
-    if (false) {
-      return res.status(400).json({ message: 'not authorized' });
+    if (userEmail) {
+      // 만약 이메일이 DB에 존재한다면 -> 중복 에러처리
+      return res.status(409).json({ message: '사용중인 이메일이 있습니다.' });
+    } else if (userName) {
+      return res.status(409).json({ message: '사용중인 닉네임이 있습니다.' });
     } else {
-      return res.status(200).json({ message: 'signup ok' });
-      // return res.status(200).json({ message: 'ok' });
+      // 모든 조건이 충족되면 지갑을 생성하고, DB에 create.
+
+      // ropsten 연결
+      const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_URL));
+
+      const { address, privateKey } = web3.eth.accounts.create();
+
+      // id 설정 로직
+      const userList = await User.find();
+      let id;
+
+      if (userList.length === 0) {
+        id = 1;
+      } else {
+        id = userList[userList.length - 1].id + 1;
+      }
+
+      await User.create({
+        id,
+        email,
+        pw,
+        name,
+        desc,
+        address,
+        privateKey,
+      });
+      return res
+        .status(200)
+        .json({ message: '회원가입이 성공적으로 완료 되었습니다.' });
     }
-  },
+  }
 };
