@@ -16,7 +16,7 @@ const PostList = () => {
     <Container fixed sx={{ bgcolor: "#ccc" }}>
       <Box
         sx={{
-          width: "50vw",
+          width: "100%",
           height: "400px",
         }}
       >
