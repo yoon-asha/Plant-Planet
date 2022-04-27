@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -16,16 +16,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Nav from '../components/Nav';
 
 import axios from 'axios';
-import { observer } from 'mobx-react';
-import useExchange from '../hooks/useExchange';
 
 const theme = createTheme();
 
 // observer
 // mobx에서 관리되는 상태가 바뀌었을때
 // observer가 선언된 컴포넌트는 바뀐거에 맞춰서 리렌더링된다
-export default observer(function SignIn() {
-  const exchangeStore = useExchange();
+export default function SignIn() {
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -39,12 +36,16 @@ export default observer(function SignIn() {
       });
 
       if (data.success) {
-        exchangeStore.setAccessToken(data.data.accessToken);
-        exchangeStore.setUserID(data.data.userInfo.id);
-        exchangeStore.setEmail(data.data.userInfo.email);
-        exchangeStore.setDesc(data.data.userInfo.desc);
-        exchangeStore.setAddress(data.data.userInfo.address);
-        // console.log(data.data.userInfo);
+        window.localStorage.setItem('accessToken', data.data.accessToken);
+        window.localStorage.setItem(
+          'userInfo',
+          JSON.stringify({
+            userID: data.data.userInfo.id,
+            email: data.data.userInfo.email,
+            desc: data.data.userInfo.desc,
+            address: data.data.userInfo.address,
+          })
+        );
         alert(data.message);
         navigate('/');
       }
@@ -52,12 +53,6 @@ export default observer(function SignIn() {
       console.log(e);
     }
   };
-
-  useEffect(() => {
-    if (exchangeStore.accessToken !== '') {
-      navigate('/');
-    }
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -142,4 +137,4 @@ export default observer(function SignIn() {
       </Container>
     </ThemeProvider>
   );
-});
+}
