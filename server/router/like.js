@@ -10,6 +10,6 @@ router.post('/like', likeController.like.post);
 router.post('/unlike', likeController.unlike.post);
 
 // GET /likeInfo
-router.get('/likeInfo', likeController.likeInfo.get);
+router.post('/likeInfo', likeController.likeInfo.get);
 
 module.exports = router;
