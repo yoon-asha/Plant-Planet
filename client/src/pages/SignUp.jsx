@@ -24,8 +24,7 @@ import useExchange from "../hooks/useExchange";
 
 const theme = createTheme();
 
-export default observer(function SignUp() {
-  const exchangeStore = useExchange();
+export default function SignUp() {
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -154,4 +153,4 @@ export default observer(function SignUp() {
       </Container>
     </ThemeProvider>
   );
-});
+}
