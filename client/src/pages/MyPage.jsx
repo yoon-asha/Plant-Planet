@@ -10,25 +10,30 @@ const MyPage = () => {
       <Container fixed>
         <Grid container spacing={5}>
           <Grid item sx={{ margin: "0 auto" }} md={8}>
-            <Box>
+            <Box display={"flex"}>
               <Box
+                mt={6}
                 sx={{
-                  background: "lightblue",
-                  width: 100,
-                  height: 100,
+                  width: 120,
+                  height: 120,
                   borderRadius: 100,
-                  marginTop: 5,
+                  background:
+                    'url("https://source.unsplash.com/random") center center',
+                  backgroundSize: "cover",
                 }}
-              >
-                <img src="프로필 사진 경로" />
-              </Box>
-              <Box>
+              ></Box>
+              <Box m={5}>
                 <h2>닉네임</h2>
                 <p>설명글</p>
               </Box>
             </Box>
           </Grid>
-          <Grid item sx={{ margin: "0 auto" }} md={8}>
+          <Grid
+            item
+            sx={{ margin: "0 auto", borderTop: "1px solid #ccc" }}
+            md={8}
+            xs={100}
+          >
             <ImageList
               cols={3}
               //   rowHeight={164}
