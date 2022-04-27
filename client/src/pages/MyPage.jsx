@@ -3,6 +3,7 @@ import Nav from "../components/Nav";
 import { Container, Grid, Box, ImageList, ImageListItem } from "@mui/material";
 
 const MyPage = () => {
+  const myInfo = JSON.parse(localStorage.getItem("userInfo"));
   return (
     <>
       <Nav />
@@ -23,8 +24,8 @@ const MyPage = () => {
                 }}
               ></Box>
               <Box m={5}>
-                <h2>닉네임</h2>
-                <p>설명글</p>
+                <h2>{myInfo.name}</h2>
+                <p>{myInfo.desc}</p>
               </Box>
             </Box>
           </Grid>

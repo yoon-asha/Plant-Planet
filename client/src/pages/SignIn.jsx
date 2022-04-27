@@ -44,6 +44,7 @@ export default function SignIn() {
           JSON.stringify({
             userID: data.data.userInfo.id,
             email: data.data.userInfo.email,
+            name: data.data.userInfo.name,
             desc: data.data.userInfo.desc,
             address: data.data.userInfo.address,
           })
