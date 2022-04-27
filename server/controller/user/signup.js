@@ -36,6 +36,17 @@ module.exports = async (req, res) => {
         id = userList[userList.length - 1].id + 1;
       }
 
+      // web3 사용해서 contract 가져오기
+      // (ERC20 ABI, ERC20 Contract 주소, {Address})
+
+      // gas 20만
+      // contract 내부에 들어있는 함수실행 (transfer)
+      // to (address), amount (10)
+
+      // const tttt= await contract.methods.mintNFT(address, url).send({ gasLimit: gas });
+      // console.log(tttt);
+      // ERC 20 토큰
+
       await User.create({
         id,
         email,
