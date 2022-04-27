@@ -11,7 +11,7 @@ router.post('/signin', userController.signin);
 // POST /signup
 router.post('/signup', userController.signup);
 
-// GET /recomList
-router.get('/recomList', loginRequired, userController.recomList);
+// POST /recomList
+router.post('/recomList', loginRequired, userController.recomList);
 
 module.exports = router;
