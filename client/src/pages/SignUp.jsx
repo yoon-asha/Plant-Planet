@@ -18,6 +18,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Nav from "../components/Nav";
 
 import axios from "axios";
+import { observer } from "mobx-react";
+import useExchange from "../hooks/useExchange";
 
 const theme = createTheme();
 
@@ -43,6 +45,12 @@ export default function SignUp() {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    if (exchangeStore.accessToken !== "") {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
