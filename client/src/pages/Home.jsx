@@ -1,6 +1,6 @@
 import React from "react";
 import Nav from "../components/Nav";
-import RecommendMember from "../components/RecommendMember";
+import RecommendList from "../components/RecommendList";
 import PostList from "../components/PostList";
 import { Container, useMediaQuery } from "@mui/material";
 
@@ -11,7 +11,7 @@ export default function Home() {
       <Nav />
       <Container fixed sx={{ display: "flex" }}>
         <PostList />
-        {isTablet ? null : <RecommendMember sx={{ position: "fixed" }} />}
+        {isTablet ? null : <RecommendList sx={{ position: "fixed" }} />}
       </Container>
     </>
   );
