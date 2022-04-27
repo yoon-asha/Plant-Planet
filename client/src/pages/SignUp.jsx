@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Avatar,
@@ -18,13 +18,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Nav from '../components/Nav';
 
 import axios from 'axios';
-import { observer } from 'mobx-react';
-import useExchange from '../hooks/useExchange';
 
 const theme = createTheme();
 
-export default observer(function SignUp() {
-  const exchangeStore = useExchange();
+export default function SignUp() {
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -46,12 +43,6 @@ export default observer(function SignUp() {
       console.log(e);
     }
   };
-
-  useEffect(() => {
-    if (exchangeStore.accessToken !== '') {
-      navigate('/');
-    }
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -153,4 +144,4 @@ export default observer(function SignUp() {
       </Container>
     </ThemeProvider>
   );
-});
+}

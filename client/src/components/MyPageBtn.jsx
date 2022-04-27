@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, MenuItem, Fade } from '@mui/material';
 import YardOutlinedIcon from '@mui/icons-material/YardOutlined';
 import { Link } from 'react-router-dom';
-import useExchange from '../hooks/useExchange';
-import { observer } from 'mobx-react';
 
-export default observer(function FadeMenu() {
-  const exchangeStore = useExchange();
+export default function FadeMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isLogin, setIsLogin] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -18,12 +16,18 @@ export default observer(function FadeMenu() {
 
   const handleSignOut = () => {
     handleClose();
-    exchangeStore.setAccessToken('');
-    exchangeStore.setUserID(0);
-    exchangeStore.setEmail('');
-    exchangeStore.setDesc('');
-    exchangeStore.setAddress('');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userInfo');
   };
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      setIsLogin(false);
+    } else {
+      setIsLogin(true);
+    }
+  }, [localStorage.getItem('accessToken')]);
 
   return (
     <>
@@ -52,10 +56,19 @@ export default observer(function FadeMenu() {
           onClose={handleClose}
           TransitionComponent={Fade}
         >
-          {/* <MenuItem onClick={handleClose} component="a" href="/mypage">
-            Profile
-          </MenuItem> */}
-          {exchangeStore.accessToken === '' ? (
+          {isLogin ? (
+            <>
+              <Link
+                to='/mypage'
+                style={{ textDecoration: 'none', color: '#000' }}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+              </Link>
+              <Link to='#' style={{ textDecoration: 'none', color: '#000' }}>
+                <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
+              </Link>
+            </>
+          ) : (
             <>
               <Link
                 to='/signin'
@@ -70,21 +83,9 @@ export default observer(function FadeMenu() {
                 <MenuItem onClick={handleClose}>Sign Up</MenuItem>
               </Link>
             </>
-          ) : (
-            <>
-              <Link
-                to='/mypage'
-                style={{ textDecoration: 'none', color: '#000' }}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-              </Link>
-              <Link to='#' style={{ textDecoration: 'none', color: '#000' }}>
-                <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
-              </Link>
-            </>
           )}
         </Menu>
       </div>
     </>
   );
-});
+}
