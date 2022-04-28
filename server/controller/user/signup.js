@@ -1,7 +1,11 @@
 const Web3 = require('web3');
 const { User } = require('../../models');
+const erc20Abi = require('../../contract/erc20Abi');
 
 const INFURA_URL = process.env.INFURA_URL;
+const ERC20_ADDR = process.env.ERC20_ADDR;
+const EXCHANGE_ADDR = process.env.EXCHANGE_ADDR;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 // signup
 module.exports = async (req, res) => {
@@ -36,12 +40,16 @@ module.exports = async (req, res) => {
         id = userList[userList.length - 1].id + 1;
       }
 
+
+      const erc20Contract = new web3.eth.Contract(erc20Abi, ERC20_ADDR, { from: EXCHANGE_ADDR });
       // web3 사용해서 contract 가져오기
       // (ERC20 ABI, ERC20 Contract 주소, {Address})
-
+      web3.eth.accounts.wallet.add(PRIVATE_KEY);
+      const tokenFaucet = await erc20Contract.methods.transfer(address, '10000000000000000000').send({ gasLimit: 200000 });
       // gas 20만
       // contract 내부에 들어있는 함수실행 (transfer)
       // to (address), amount (10)
+      console.log(tokenFaucet);
 
       // const tttt= await contract.methods.mintNFT(address, url).send({ gasLimit: gas });
       // console.log(tttt);
@@ -55,6 +63,7 @@ module.exports = async (req, res) => {
         desc,
         address,
         privateKey,
+        tokenFaucet,
       });
       return res
         .status(200)
