@@ -1,9 +1,11 @@
 const Web3 = require('web3');
 const erc721Abi = require('../../contract/erc721Abi');
+const erc20Abi = require('../../contract/erc20Abi');
 const { Post, User } = require('../../models');
 
 const INFURA_URL = process.env.INFURA_URL;
 const ERC721_ADDR = process.env.ERC721_ADDR;
+const ERC20_ADDR = process.env.ERC20_ADDR;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const EXCHANGE_ADDR = process.env.EXCHANGE_ADDR;
 
@@ -20,26 +22,38 @@ module.exports = async (req, res) => {
       .json({ success: false, data: null, message: '권한이 없습니다' });
   } else {
     try {
-      // **Contract 관련 Logic**
+      // ** Contract 설정 **
       const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_URL));
-      web3.eth.accounts.wallet.add(PRIVATE_KEY);
-      // 거래소 계정
-      const contract = await new web3.eth.Contract(erc721Abi, ERC721_ADDR, {
-        from: EXCHANGE_ADDR,
+      // ** ERC20 Contract Logic **
+      web3.eth.accounts.wallet.add(userInfo.privateKey);
+      const erc20Contract = await new web3.eth.Contract(erc20Abi, ERC20_ADDR, {
+        from: address,
       });
-      // 로그인 계정
-      const gas = await contract.methods.mintNFT(address, url).estimateGas();
-      // Mint 과정
-      // 로그인 계정
-      // Pending 끝날때까지 기다릴까? <- 기다리지 말자
-      // const newTokenId = await contract.methods
-      //   .mintNFT(address, url)
-      //   .send({ gasLimit: gas });
-      // console.log(newTokenId);
-
-      contract.methods.mintNFT(address, url).send({ gasLimit: gas });
+      erc20Contract.methods
+        .transfer(EXCHANGE_ADDR, '5000000000000000000')
+        .send({ gasLimit: 200000 });
+      // ** ERC721 Contract Logic **
+      await web3.eth.accounts.wallet.add(PRIVATE_KEY);
+      const erc721Contract = await new web3.eth.Contract(
+        erc721Abi,
+        ERC721_ADDR,
+        {
+          from: EXCHANGE_ADDR,
+        }
+      );
+      const erc721Gas = await erc721Contract.methods
+        .mintNFT(address, url)
+        .estimateGas();
+      await erc721Contract.methods
+        .mintNFT(address, url)
+        .send({ gasLimit: erc721Gas });
 
       // **DB에 저장하는 Logic**
+      await User.findOneAndUpdate(
+        { address: address },
+        { $inc: { token: -5 } }
+      );
+
       const postList = await Post.find();
 
       // id 만들기
