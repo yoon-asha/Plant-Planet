@@ -64,7 +64,10 @@ export default function FadeMenu() {
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
               </Link>
-              <Link to="#" style={{ textDecoration: "none", color: "#000" }}>
+              <Link
+                to="/signin"
+                style={{ textDecoration: "none", color: "#000" }}
+              >
                 <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
               </Link>
             </>
