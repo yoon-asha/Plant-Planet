@@ -83,7 +83,11 @@ const PostCard = () => {
 
                   <BottomNavigation showLabels>
                     <BottomNavigationAction icon={<FavoriteIcon />} />
-                    <Detail />
+                    <Detail
+                      name={posts.userName}
+                      img={posts.url}
+                      desc={posts.desc}
+                    />
                   </BottomNavigation>
                 </Box>
               </>

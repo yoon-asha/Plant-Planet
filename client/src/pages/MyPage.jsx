@@ -2,18 +2,31 @@ import React from 'react';
 import Nav from '../components/Nav';
 import { Container, Grid, Box, ImageList, ImageListItem } from '@mui/material';
 import axios from 'axios';
-import { Async } from 'react-async';
-
-function myPostCard() {
-  let res = axios.get('http://localhost:4000/mypost');
-  let data = res.data.data;
-  let tokenList = data.tokenList;
-  console.log('>>>');
-}
+import Async from 'react-async';
 
 const MyPage = () => {
   const myInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const accessToken = localStorage.getItem('accessToken');
 
+  async function myPostCard() {
+    console.log('====>>>>', accessToken);
+
+    let res = await axios.post(
+      'http://localhost:4000/mypost',
+      {
+        address: myInfo.address,
+      },
+      {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    let data = res.data.data;
+    let tokenList = data.tokenList;
+    return tokenList;
+  }
+  // console.log('mypostcard>>>>', myPostCard());
   return (
     <>
       <Nav />
@@ -27,7 +40,7 @@ const MyPage = () => {
                   width: 120,
                   height: 120,
                   borderRadius: 100,
-                  background: `url("https://source.unsplash.com/collection${myInfo.id}") center center`,
+                  background: `url("https://source.unsplash.com/collection/${myInfo.userID}") center center`,
                   backgroundSize: 'cover',
                 }}
               ></Box>
@@ -43,7 +56,50 @@ const MyPage = () => {
             md={8}
             xs={100}
           >
-            {/* <ImageList
+            <Async promiseFn={myPostCard}>
+              {({ data, error, isPending }) => {
+                if (isPending) return 'Loading...';
+                if (error) return `Something went wrong: ${error.message}`;
+
+                const MyPostList = data.map((myImg, idx) => {
+                  return (
+                    <>
+                      <ImageListItem key={myImg.id}>
+                        <Box
+                          sx={{
+                            width: 164,
+                            height: 164,
+                            overflow: 'hidden',
+                          }}
+                        >
+                          <img
+                            key={myImg.id}
+                            src={myImg.url}
+                            style={{ width: '100%', height: '100%' }}
+                            // srcSet={`${myImg.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                            alt={myImg.desc}
+                            loading="lazy"
+                          />
+                        </Box>
+                      </ImageListItem>
+                    </>
+                  );
+                });
+
+                return <>{MyPostList}</>;
+              }}
+            </Async>
+          </Grid>
+        </Grid>
+      </Container>
+    </>
+  );
+};
+
+export default MyPage;
+
+{
+  /* <ImageList
               cols={3}
               //   rowHeight={164}
             >
@@ -57,16 +113,8 @@ const MyPage = () => {
                   />
                 </ImageListItem>
               ))}
-            </ImageList> */}
-            {/* <Async promiseFn={myPostCard}>{{ data, error, isPending }}</Async> */}
-          </Grid>
-        </Grid>
-      </Container>
-    </>
-  );
-};
-
-export default MyPage;
+            </ImageList> */
+}
 
 // const itemData = [
 //   {
