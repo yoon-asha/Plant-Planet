@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Avatar,
@@ -15,11 +15,10 @@ import {
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 import Nav from "../components/Nav";
 
 import axios from "axios";
-import { observer } from "mobx-react";
-import useExchange from "../hooks/useExchange";
 
 const theme = createTheme();
 
@@ -42,15 +41,9 @@ export default function SignUp() {
         navigate("/");
       }
     } catch (e) {
-      console.log(e);
+      alert(e.response.data.message);
     }
   };
-
-  useEffect(() => {
-    if (exchangeStore.accessToken !== "") {
-      navigate("/");
-    }
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
