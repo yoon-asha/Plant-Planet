@@ -1,9 +1,11 @@
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Async from 'react-async';
 
 import { Box, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ModeCommentRoundedIcon from '@mui/icons-material/ModeCommentRounded';
 import Detail from './Detail';
 
 async function getPostCard() {
@@ -14,13 +16,84 @@ async function getPostCard() {
 }
 
 const PostCard = () => {
+  const [accessToken, setAccessToken] = useState('');
+  const [userID, setUserID] = useState('');
+  const [likeList, setLikeList] = useState([]);
+  const [render, setRender] = useState('');
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+    } else {
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      setAccessToken(accessToken);
+      setUserID(userInfo.userID);
+    }
+  }, []);
+
+  useEffect(() => {
+    const getLikeList = async (accessToken, userID) => {
+      const { data } = await axios.post(
+        'http://localhost:4000/likeInfo',
+        {
+          user_id: userID,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      setLikeList(data.data.likeList);
+    };
+
+    if (accessToken && userID) {
+      getLikeList(accessToken, userID);
+    }
+  }, [accessToken, userID, render]);
+
+  const clickLike = async (userID, postID) => {
+    const { data } = await axios.post(
+      'http://localhost:4000/like',
+      {
+        user_id: userID,
+        post_id: postID,
+      },
+      {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    alert(data.message);
+    setRender(postID + '성공');
+  };
+
+  const clickUnlike = async (userID, postID) => {
+    const { data } = await axios.post(
+      'http://localhost:4000/unlike',
+      {
+        user_id: userID,
+        post_id: postID,
+      },
+      {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    alert(data.message);
+    setRender(postID + '취소');
+  };
+
   return (
     <>
       <Async promiseFn={getPostCard}>
         {({ data, error, isPending }) => {
           if (isPending) return 'Loading...';
           if (error) return `Something went wrong: ${error.message}`;
-          // if (data) console.log("data = ", data);
           const postList = data.map((posts, idx) => {
             return (
               <>
@@ -82,11 +155,29 @@ const PostCard = () => {
                   </Box>
 
                   <BottomNavigation showLabels>
-                    <BottomNavigationAction icon={<FavoriteIcon />} />
-                    <Detail
-                      name={posts.userName}
-                      img={posts.url}
-                      desc={posts.desc}
+                    {likeList.filter((el) => Number(el) === posts.id).length !==
+                    0 ? (
+                      <BottomNavigationAction
+                        icon={
+                          <FavoriteIcon
+                            sx={{ color: '#ff0000' }}
+                            onClick={() => clickUnlike(userID, posts.id)}
+                          />
+                        }
+                      />
+                    ) : (
+                      <BottomNavigationAction
+                        icon={
+                          <FavoriteIcon
+                            onClick={() => clickLike(userID, posts.id)}
+                          />
+                        }
+                      />
+                    )}
+
+                    <BottomNavigationAction
+                      icon={<ModeCommentRoundedIcon />}
+                      onClick={Detail}
                     />
                   </BottomNavigation>
                 </Box>

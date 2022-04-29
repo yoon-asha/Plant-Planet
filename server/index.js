@@ -57,4 +57,5 @@ mongoose
   .catch((e) => console.error(e));
 
 // 4000 Port Check
-app.listen(4000, () => console.log('4000번 포트에서 대기중'));
+app.listen(process.env.PORT || 4000, () => console.log('4000번 포트에서 대기중'));
+//고정포트 관한 헤로쿠 에러관련 listen 수정
