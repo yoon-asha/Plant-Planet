@@ -31,7 +31,6 @@ const Detail = () => {
           hello hi
         </Box>
       </Modal>
-      <Box>hello world</Box>
     </>
   );
 };
