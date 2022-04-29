@@ -1,12 +1,11 @@
 import React from "react";
-import { Container, Box } from "@mui/material";
+import { Container } from "@mui/material";
 
 import PostCard from "./PostCard";
 
 const PostList = () => {
-  // PostCard();
   return (
-    <Container sx={{}}>
+    <Container>
       <PostCard />
     </Container>
   );

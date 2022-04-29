@@ -46,6 +46,7 @@ export default function SignIn() {
             email: data.data.userInfo.email,
             name: data.data.userInfo.name,
             desc: data.data.userInfo.desc,
+            token: data.data.userInfo.token,
             address: data.data.userInfo.address,
           })
         );
