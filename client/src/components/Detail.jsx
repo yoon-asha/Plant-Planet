@@ -28,9 +28,11 @@ const Detail = (props) => {
             bgcolor: '#fff',
           }}
         >
-          {props.name}
-          {props.desc}
-          <img src={props.url} style={{ width: '300px' }} />
+          <Box>
+            <img src={props.url} style={{ width: '300px' }} />
+          </Box>
+          <Box>{props.name}</Box>
+          <Box>{props.desc}</Box>
         </Box>
       </Modal>
     </>
