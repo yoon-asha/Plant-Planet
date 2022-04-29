@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Async from 'react-async';
@@ -119,7 +120,6 @@ const PostCard = () => {
                         backgroundSize: 'cover',
                       }}
                     ></Box>
-                    <p>{posts.userID}</p>
                     <p
                       key={posts.id}
                       style={{
@@ -139,6 +139,20 @@ const PostCard = () => {
                     }}
                     alt={posts.name}
                   />
+                  <Box
+                    display={'flex'}
+                    sx={{
+                      alignItems: 'center',
+                      borderBottom: '1px solid #ccc',
+                    }}
+                  >
+                    <strong
+                      style={{ fontSize: '1.3rem', margin: '0 15px 0 20px' }}
+                    >
+                      {posts.userName} ☆
+                    </strong>
+                    <p style={{ fontSize: '1.2rem' }}>{posts.desc}</p>
+                  </Box>
 
                   <BottomNavigation showLabels>
                     {likeList.filter((el) => Number(el) === posts.id).length !==
@@ -165,9 +179,8 @@ const PostCard = () => {
                       icon={<ModeCommentRoundedIcon />}
                       onClick={Detail}
                     />
-                  </BottomNavigation>
 
-                  <Detail />
+                  </BottomNavigation>
                 </Box>
               </>
             );
