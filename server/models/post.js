@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Define Schemes
 const postSchema = new mongoose.Schema(
@@ -13,8 +13,8 @@ const postSchema = new mongoose.Schema(
     count: { type: Number, default: 0 },
   },
   { timestamps: true },
-  { collection: 'post-collection' }
+  { collection: "post-collection" }
 );
 
 // Create Model & Export
-module.exports = mongoose.model('Post', postSchema);
+module.exports = mongoose.model("Post", postSchema);

@@ -16,12 +16,8 @@ module.exports = async (req, res) => {
       });
     } else {
       const { email, name } = userInfo;
-
       const payload = { email, name };
-
-      const accessToken = jwt.sign(payload, ACCESS_SECRET, {
-        expiresIn: '30m',
-      });
+      const accessToken = jwt.sign(payload, ACCESS_SECRET);
 
       return res.status(200).json({
         success: true,
@@ -35,7 +31,7 @@ module.exports = async (req, res) => {
             address: userInfo.address,
           },
         },
-        message: 'OK',
+        message: '로그인이 완료되었습니다',
       });
     }
   });
