@@ -168,7 +168,7 @@ const Nav = () => {
                       component="h2"
                       sx={{ p: 2, border: '1px solid #ccc' }}
                     >
-                      NFT address {address}
+                      Wallet address {address}
                     </Typography>
                   </Grid>
                   {fileUrl && (

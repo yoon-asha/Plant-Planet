@@ -179,7 +179,6 @@ const PostCard = () => {
                       icon={<ModeCommentRoundedIcon />}
                       onClick={Detail}
                     />
-
                   </BottomNavigation>
                 </Box>
               </>

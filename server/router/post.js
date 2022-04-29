@@ -12,6 +12,6 @@ router.post('/post', loginRequired, postController.post);
 router.get('/allPost', postController.allPost);
 
 // GET /post
-router.get('/myPost', loginRequired, postController.myPost);
+router.post('/myPost', loginRequired, postController.myPost);
 
 module.exports = router;
