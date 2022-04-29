@@ -19,9 +19,7 @@ module.exports = async (req, res) => {
 
       const payload = { email, name };
 
-      const accessToken = jwt.sign(payload, ACCESS_SECRET, {
-        expiresIn: '30m',
-      });
+      const accessToken = jwt.sign(payload, ACCESS_SECRET);
 
       return res.status(200).json({
         success: true,
