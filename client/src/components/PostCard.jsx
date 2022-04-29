@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Async from 'react-async';
@@ -175,9 +174,10 @@ const PostCard = () => {
                       />
                     )}
 
-                    <BottomNavigationAction
-                      icon={<ModeCommentRoundedIcon />}
-                      onClick={Detail}
+                    <Detail
+                      name={posts.name}
+                      url={posts.url}
+                      desc={posts.desc}
                     />
                   </BottomNavigation>
                 </Box>
