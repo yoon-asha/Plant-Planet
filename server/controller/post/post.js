@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
     // 아마 걸리지 않을듯(이미 미들웨어로 검증)
     return res
       .status(400)
-      .json({ success: false, data: null, message: "권한이 없습니다" });
+      .json({ success: false, data: null, message: '권한이 없습니다' });
   } else {
     try {
       // ** Contract 설정 **
@@ -44,7 +44,7 @@ module.exports = async (req, res) => {
       const erc721Gas = await erc721Contract.methods
         .mintNFT(address, url)
         .estimateGas();
-      await erc721Contract.methods
+      erc721Contract.methods
         .mintNFT(address, url)
         .send({ gasLimit: erc721Gas });
 
@@ -80,7 +80,7 @@ module.exports = async (req, res) => {
       return res.status(200).json({
         success: true,
         data: null,
-        message: "포스트 게시가 완료되었습니다",
+        message: '포스트 게시가 완료되었습니다',
       });
     } catch (e) {
       console.log(e);

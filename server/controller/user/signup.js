@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
       // web3 사용해서 contract 가져오기
       // (ERC20 ABI, ERC20 Contract 주소, {Address})
       web3.eth.accounts.wallet.add(PRIVATE_KEY);
-      await erc20Contract.methods
+      erc20Contract.methods
         .transfer(address, '10000000000000000000')
         .send({ gasLimit: 200000 });
       // gas 20만
