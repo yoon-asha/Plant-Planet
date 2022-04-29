@@ -1,14 +1,23 @@
-const { Post } = require('../../models');
+const { Post, User } = require('../../models');
 
 module.exports = async (req, res) => {
   const { address } = req.body;
 
-  const userInfo = await Post.find({ address: address });
+  const postInfo = await Post.find({ address: address });
+  const userInfo = await User.find({ address: address });
 
-  if (userInfo) {
+  const findToken = (userInfo) => {
+    return userInfo.token
+  }
+  const tokenFilter = userInfo.map(findToken)
+
+
+  console.log(tokenFilter)
+  console.log(postInfo)
+  if (postInfo) {
     res.status(200).json({
       success: true,
-      data: { tokenList: userInfo },
+      data: { tokenFilter, postInfo },
       message: 'myPost ok',
     });
   }
