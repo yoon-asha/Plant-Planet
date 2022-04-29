@@ -3,13 +3,15 @@ const router = express.Router();
 
 const { likeController } = require('../controller');
 
+const loginRequired = require('../middleware/loginRequired');
+
 // POST /like
-router.post('/like', likeController.like.post);
+router.post('/like', loginRequired, likeController.like);
 
 // POST /unlike
-router.post('/unlike', likeController.unlike.post);
+router.post('/unlike', loginRequired, likeController.unlike);
 
 // GET /likeInfo
-router.post('/likeInfo', likeController.likeInfo.get);
+router.post('/likeInfo', loginRequired, likeController.likeInfo);
 
 module.exports = router;
