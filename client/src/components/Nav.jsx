@@ -20,19 +20,6 @@ import { create } from "ipfs-http-client";
 import axios from "axios";
 const client = create("https://ipfs.infura.io:5001/api/v0");
 
-// 모달 박스 스타일
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "450px",
-  bgcolor: "#fff",
-  borderRadius: "10px",
-  boxShadow: 24,
-  p: 4,
-};
-
 const Nav = () => {
   const [open, setOpen] = useState(false);
 
@@ -114,7 +101,11 @@ const Nav = () => {
           <Grid container spacing={5}>
             <Grid item xs={4}>
               <Link to="/">
-                <img src={logo} style={{ width: "140px", paddingTop: "6px" }} />
+                <img
+                  src={logo}
+                  style={{ width: "140px", paddingTop: "6px" }}
+                  alt="logo"
+                />
               </Link>
             </Grid>
             {/* <Button sx={{ position: "absolute", right: "10px" }}>Login</Button> */}
@@ -146,8 +137,21 @@ const Nav = () => {
             onClose={writeClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            <Box sx={style}>
+            <Box
+              sx={{
+                width: "450px",
+                bgcolor: "#fff",
+                borderRadius: "10px",
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
               {isLogin ? (
                 <>
                   <Grid item>
@@ -163,28 +167,33 @@ const Nav = () => {
                       id="modal-modal-subtitle"
                       variant="subtitle1"
                       component="h2"
+                      sx={{ p: 2, border: "1px solid #ccc" }}
                     >
-                      {address}
+                      NFT address {address}
                     </Typography>
                   </Grid>
-                  {fileUrl && <img src={fileUrl} width="100%" />}
-                  <Grid item>
+                  {fileUrl && (
+                    <img src={fileUrl} width="100%" alt="select file" />
+                  )}
+                  <Grid item mt={3}>
                     <TextField
+                      fullWidth
                       id="standard-basic"
-                      label="name here..."
-                      variant="standard"
+                      label="NFT의 이름을 적어주세요"
+                      variant="filled"
                       color="success"
                       onChange={(e) => changeName(e)}
                     ></TextField>
                     <TextField
+                      fullWidth
                       id="standard-basic"
-                      label="description here..."
-                      variant="standard"
+                      label="NFT에 대한 설명을 적어주세요"
+                      variant="filled"
                       color="success"
                       onChange={(e) => changeDesc(e)}
                     ></TextField>
                   </Grid>
-                  <Grid item>
+                  <Grid item mt={3} sx={{ textAlign: "right" }}>
                     <input
                       type="file"
                       accept="image/*"

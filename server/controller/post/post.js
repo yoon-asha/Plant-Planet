@@ -1,6 +1,6 @@
-const Web3 = require('web3');
-const erc721Abi = require('../../contract/erc721Abi');
-const { Post, User } = require('../../models');
+const Web3 = require("web3");
+const erc721Abi = require("../../contract/erc721Abi");
+const { Post, User } = require("../../models");
 
 const INFURA_URL = process.env.INFURA_URL;
 const ERC721_ADDR = process.env.ERC721_ADDR;
@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
     // 아마 걸리지 않을듯(이미 미들웨어로 검증)
     return res
       .status(400)
-      .json({ success: false, data: null, message: '권한이 없습니다' });
+      .json({ success: false, data: null, message: "권한이 없습니다" });
   } else {
     try {
       // **Contract 관련 Logic**
@@ -54,6 +54,7 @@ module.exports = async (req, res) => {
       await Post.create({
         id,
         userID: userInfo.id,
+        userName: userInfo.name,
         name,
         desc,
         address,
@@ -65,7 +66,7 @@ module.exports = async (req, res) => {
       return res.status(200).json({
         success: true,
         data: null,
-        message: '포스트 게시가 완료되었습니다',
+        message: "포스트 게시가 완료되었습니다",
       });
     } catch (e) {
       console.log(e);
