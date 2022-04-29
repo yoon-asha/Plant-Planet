@@ -40,8 +40,8 @@ module.exports = async (req, res) => {
 
     await Favorite.create({ id: id, user_id: user_id, post_id: post_id });
     await Post.findOneAndUpdate({ id: post_id }, { $inc: { count: 1 } }); // 좋아요 개수 + 1을 update.
-    res.status(200).json({ message: 'Like Ok.' });
+    res.status(200).json({ message: '좋아요가 성공적으로 완료되었습니다' });
   } else {
-    res.status(404).json({ message: 'Error' });
+    res.status(404).json({ message: '좋아요가 실패했습니다' });
   }
 };

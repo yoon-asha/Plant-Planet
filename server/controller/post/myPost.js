@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
   if (postInfo) {
     res.status(200).json({
       success: true,
-      data: { tokenFilter, tokenList: postInfo },
+      data: { tokenFilter: tokenFilter, tokenList: postInfo },
       message: 'myPost ok',
     });
   }
