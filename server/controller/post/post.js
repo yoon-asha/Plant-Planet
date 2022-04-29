@@ -68,6 +68,7 @@ module.exports = async (req, res) => {
       await Post.create({
         id,
         userID: userInfo.id,
+        userName: userInfo.name,
         name,
         desc,
         address,
