@@ -7,17 +7,16 @@ module.exports = async (req, res) => {
   const userInfo = await User.find({ address: address });
 
   const findToken = (userInfo) => {
-    return userInfo.token
-  }
-  const tokenFilter = userInfo.map(findToken)
+    return userInfo.token;
+  };
+  const tokenFilter = userInfo.map(findToken);
 
-
-  console.log(tokenFilter)
-  console.log(postInfo)
+  console.log(tokenFilter);
+  console.log(postInfo);
   if (postInfo) {
     res.status(200).json({
       success: true,
-      data: { tokenFilter, postInfo },
+      data: { tokenFilter: tokenFilter, tokenList: postInfo },
       message: 'myPost ok',
     });
   }
