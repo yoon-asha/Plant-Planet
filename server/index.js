@@ -3,10 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const path = require('path')
 
 const mongoose = require('mongoose');
-
 
 const userRouter = require('./router/user');
 const likeRouter = require('./router/like');
@@ -14,15 +12,15 @@ const postRouter = require('./router/post');
 
 const app = express();
 
-app.get("/", (request, response) => {
-  response.sendFile(path.join(__dirname, "./client", "index.js"));
-});
-
+app.get('/', function (req, res) {
+  const index = path.join(__dirname, './clinet', 'index.js');
+  res.sendFile(index)
+})
 // CORS 설정
 // GET, POST, OPTIONS 허용
 app.use(
   cors({
-    origin: '*',
+    origin: 'http://localhost:3000',
     methods: ['GET', 'POST', 'OPTIONS'],
     credentials: true,
   })
