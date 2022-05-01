@@ -6,11 +6,21 @@ const cookieParser = require('cookie-parser');
 
 const mongoose = require('mongoose');
 
+
 const userRouter = require('./router/user');
 const likeRouter = require('./router/like');
 const postRouter = require('./router/post');
 
 const app = express();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
+
+app.get("/", (request, response) => {
+  response.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
+
 // CORS 설정
 // GET, POST, OPTIONS 허용
 app.use(
