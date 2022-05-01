@@ -13,8 +13,8 @@ const postRouter = require('./router/post');
 
 const app = express();
 
-app.get("/*", (request, response) => {
-  response.sendFile(path.join(__dirname, "client/build", "index.html"));
+app.get("/", (request, response) => {
+  response.sendFile(path.join(__dirname, "./client", "index.js"));
 });
 
 // CORS 설정
