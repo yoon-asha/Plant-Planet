@@ -176,6 +176,7 @@ const PostCard = () => {
 
                     <Detail
                       name={posts.name}
+                      userName={posts.userName}
                       url={posts.url}
                       desc={posts.desc}
                     />
