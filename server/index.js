@@ -13,10 +13,12 @@ const postRouter = require('./router/post');
 
 const app = express();
 
-app.get('/', function (req, res) {
-  const index = path.join(__dirname, '../../src/client', 'index.js');
-  res.sendFile(index)
-})
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
+});
+
 // CORS 설정
 // GET, POST, OPTIONS 허용
 app.use(
