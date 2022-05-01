@@ -8,7 +8,7 @@ import ModeCommentRoundedIcon from '@mui/icons-material/ModeCommentRounded';
 import Detail from './Detail';
 
 async function getPostCard() {
-  let res = await axios.get('http://localhost:4000/allpost');
+  let res = await axios.get(`${process.env.REACT_APP_API_URL}/allpost`);
   let data = res.data.data;
   let tokenList = data.tokenList;
   return tokenList;
@@ -33,7 +33,7 @@ const PostCard = () => {
   useEffect(() => {
     const getLikeList = async (accessToken, userID) => {
       const { data } = await axios.post(
-        'http://localhost:4000/likeInfo',
+        `${process.env.REACT_APP_API_URL}/likeInfo`,
         {
           user_id: userID,
         },
@@ -53,7 +53,7 @@ const PostCard = () => {
 
   const clickLike = async (userID, postID) => {
     const { data } = await axios.post(
-      'http://localhost:4000/like',
+      `${process.env.REACT_APP_API_URL}/like`,
       {
         user_id: userID,
         post_id: postID,
@@ -71,7 +71,7 @@ const PostCard = () => {
 
   const clickUnlike = async (userID, postID) => {
     const { data } = await axios.post(
-      'http://localhost:4000/unlike',
+      `${process.env.REACT_APP_API_URL}/unlike`,
       {
         user_id: userID,
         post_id: postID,

@@ -47,7 +47,7 @@ const Nav = () => {
   const createNFT = async () => {
     try {
       const { data } = await axios.post(
-        'http://localhost:4000/post',
+        `${process.env.REACT_APP_API_URL}/post`,
         {
           url: fileUrl,
           address: address,
@@ -95,15 +95,15 @@ const Nav = () => {
 
   return (
     <>
-      <AppBar position="sticky" sx={{ bgcolor: '#fff' }}>
+      <AppBar position='sticky' sx={{ bgcolor: '#fff' }}>
         <Toolbar>
           <Grid container spacing={5}>
             <Grid item xs={4}>
-              <Link to="/">
+              <Link to='/'>
                 <img
                   src={logo}
                   style={{ width: '140px', paddingTop: '6px' }}
-                  alt="logo"
+                  alt='logo'
                 />
               </Link>
             </Grid>
@@ -134,8 +134,8 @@ const Nav = () => {
           <Modal
             open={open}
             onClose={writeClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+            aria-labelledby='modal-modal-title'
+            aria-describedby='modal-modal-description'
             sx={{
               display: 'flex',
               justifyContent: 'center',
@@ -155,58 +155,58 @@ const Nav = () => {
                 <>
                   <Grid item>
                     <Typography
-                      id="modal-modal-title"
-                      variant="h6"
-                      component="h2"
+                      id='modal-modal-title'
+                      variant='h6'
+                      component='h2'
                       sx={{ marginBottom: 2 }}
                     >
                       Create NFT
                     </Typography>
                     <Typography
-                      id="modal-modal-subtitle"
-                      variant="subtitle1"
-                      component="h2"
+                      id='modal-modal-subtitle'
+                      variant='subtitle1'
+                      component='h2'
                       sx={{ p: 2, border: '1px solid #ccc' }}
                     >
                       Wallet address {address}
                     </Typography>
                   </Grid>
                   {fileUrl && (
-                    <img src={fileUrl} width="100%" alt="select file" />
+                    <img src={fileUrl} width='100%' alt='select file' />
                   )}
                   <Grid item mt={3}>
                     <TextField
                       fullWidth
-                      id="standard-basic"
-                      label="NFT의 이름을 적어주세요"
-                      variant="filled"
-                      color="success"
+                      id='standard-basic'
+                      label='NFT의 이름을 적어주세요'
+                      variant='filled'
+                      color='success'
                       onChange={(e) => changeName(e)}
                     ></TextField>
                     <TextField
                       fullWidth
-                      id="standard-basic"
-                      label="NFT에 대한 설명을 적어주세요"
-                      variant="filled"
-                      color="success"
+                      id='standard-basic'
+                      label='NFT에 대한 설명을 적어주세요'
+                      variant='filled'
+                      color='success'
                       onChange={(e) => changeDesc(e)}
                     ></TextField>
                   </Grid>
                   <Grid item mt={3} sx={{ textAlign: 'right' }}>
                     <input
-                      type="file"
-                      accept="image/*"
+                      type='file'
+                      accept='image/*'
                       style={{ display: 'none' }}
-                      id="icon-button-file"
+                      id='icon-button-file'
                       onChange={onChange}
                     />
-                    <label htmlFor="icon-button-file">
-                      <Button variant="icon" color="primary" component="span">
+                    <label htmlFor='icon-button-file'>
+                      <Button variant='icon' color='primary' component='span'>
                         Select
                       </Button>
                     </label>
                     {fileUrl && name && desc && (
-                      <Button color="primary" onClick={createNFT}>
+                      <Button color='primary' onClick={createNFT}>
                         Create
                       </Button>
                     )}
@@ -215,9 +215,9 @@ const Nav = () => {
               ) : (
                 <Grid item>
                   <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
+                    id='modal-modal-title'
+                    variant='h6'
+                    component='h2'
                     sx={{ marginBottom: 2 }}
                   >
                     로그인 먼저 진행해주세요

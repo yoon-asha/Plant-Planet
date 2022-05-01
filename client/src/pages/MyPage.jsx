@@ -4,16 +4,16 @@ import { Container, Grid, Box, ImageList, ImageListItem } from '@mui/material';
 import axios from 'axios';
 import Async from 'react-async';
 
-
 const MyPage = () => {
   const myInfo = JSON.parse(localStorage.getItem('userInfo'));
   const accessToken = localStorage.getItem('accessToken');
 
   async function myPostCard() {
     console.log('====>>>>', accessToken);
+    console.log(process.env.REACT_APP_API_URL);
 
     let res = await axios.post(
-      'http://localhost:4000/mypost',
+      `${process.env.REACT_APP_API_URL}/mypost`,
       {
         address: myInfo.address,
       },
@@ -28,7 +28,6 @@ const MyPage = () => {
     return tokenList;
   }
   // console.log('mypostcard>>>>', myPostCard());
-
 
   return (
     <>
@@ -68,7 +67,8 @@ const MyPage = () => {
                   return (
                     <>
                       <ImageListItem key={myImg.id}>
-                        <Box m={0.7}
+                        <Box
+                          m={0.7}
                           sx={{
                             width: 230,
                             height: 230,
@@ -81,7 +81,7 @@ const MyPage = () => {
                             style={{ width: '100%', height: '100%' }}
                             // srcSet={`${myImg.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                             alt={myImg.desc}
-                            loading="lazy"
+                            loading='lazy'
                           />
                         </Box>
                       </ImageListItem>

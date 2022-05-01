@@ -9,7 +9,7 @@ export default function RecomList() {
   useEffect(() => {
     const getRecomList = async () => {
       const { data } = await axios.post(
-        'http://localhost:4000/recomList',
+        `${process.env.REACT_APP_API_URL}/recomList`,
         {
           address: myInfo.address,
         },
