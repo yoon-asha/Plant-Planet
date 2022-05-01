@@ -15,7 +15,7 @@ const app = express();
 // GET, POST, OPTIONS 허용
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: '*',
     methods: ['GET', 'POST', 'OPTIONS'],
     credentials: true,
   })
