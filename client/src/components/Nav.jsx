@@ -140,13 +140,11 @@ const Nav = () => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              height: '100%',
             }}
           >
             <Box
               sx={{
                 width: '450px',
-                height: '100%',
                 bgcolor: '#fff',
                 borderRadius: '10px',
                 boxShadow: 24,
