@@ -4,6 +4,7 @@ import { Container, Grid, Box, ImageList, ImageListItem } from '@mui/material';
 import axios from 'axios';
 import Async from 'react-async';
 
+
 const MyPage = () => {
   const myInfo = JSON.parse(localStorage.getItem('userInfo'));
   const accessToken = localStorage.getItem('accessToken');
@@ -27,6 +28,8 @@ const MyPage = () => {
     return tokenList;
   }
   // console.log('mypostcard>>>>', myPostCard());
+
+
   return (
     <>
       <Nav />
@@ -65,10 +68,10 @@ const MyPage = () => {
                   return (
                     <>
                       <ImageListItem key={myImg.id}>
-                        <Box
+                        <Box m={0.7}
                           sx={{
-                            width: 164,
-                            height: 164,
+                            width: 230,
+                            height: 230,
                             overflow: 'hidden',
                           }}
                         >
